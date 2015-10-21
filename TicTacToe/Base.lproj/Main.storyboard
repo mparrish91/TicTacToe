@@ -117,6 +117,16 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="O" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HbF-D9-lIr">
+                                <rect key="frame" x="294" y="486" width="13" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="6d7-W8-E9m"/>
+                                    <constraint firstAttribute="width" constant="13" id="iuO-c5-sQ4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -125,6 +135,7 @@
                             <constraint firstItem="Od7-P2-rbk" firstAttribute="top" secondItem="iOg-h7-uHF" secondAttribute="bottom" constant="69" id="7yP-5W-KCp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="XNr-Se-G9N" secondAttribute="trailing" constant="87" id="9Ux-50-DZ5"/>
                             <constraint firstItem="6zf-6R-XTr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="AsT-rJ-Kwt"/>
+                            <constraint firstItem="HbF-D9-lIr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Dgn-af-Qa3"/>
                             <constraint firstItem="LnU-GW-2cC" firstAttribute="top" secondItem="MiY-Ux-peO" secondAttribute="bottom" constant="86" id="Gwp-OJ-Rw5"/>
                             <constraint firstItem="MiY-Ux-peO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="79" id="Isa-V8-7NF"/>
                             <constraint firstItem="J7u-JU-Hmw" firstAttribute="top" secondItem="XNr-Se-G9N" secondAttribute="bottom" constant="69" id="NGp-UU-PUq"/>
@@ -144,9 +155,11 @@
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="57g-vP-7eE" appends="YES" id="X5p-3X-hAS"/>
+                            <outletCollection property="gestureRecognizers" destination="clS-QW-Slb" appends="YES" id="0Hu-Xm-TWU"/>
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="dragLabel" destination="HbF-D9-lIr" id="Ngm-x6-Fbh"/>
                         <outlet property="labelEight" destination="J7u-JU-Hmw" id="tcT-r3-azW"/>
                         <outlet property="labelFive" destination="Od7-P2-rbk" id="hXa-rN-lgJ"/>
                         <outlet property="labelFour" destination="MiY-Ux-peO" id="MHh-Xa-5SN"/>
@@ -166,6 +179,11 @@
                         <action selector="onLabelTapped:" destination="BYZ-38-t0r" id="S57-T9-U6z"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="clS-QW-Slb">
+                    <connections>
+                        <action selector="onPlayerLabelDragged:" destination="BYZ-38-t0r" id="hnQ-SM-1b7"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="105" y="247"/>
         </scene>

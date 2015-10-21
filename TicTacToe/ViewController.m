@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UIGestureRecognizerDelegate>
+@interface ViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *labelOne;
 @property (weak, nonatomic) IBOutlet UILabel *labelTwo;
 @property (weak, nonatomic) IBOutlet UILabel *labelThree;
@@ -25,7 +25,8 @@
 @property NSArray *winningCombinations;
 @property NSMutableArray *currentGameArray;
 
-//@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *labelArray;
+@property (weak, nonatomic) IBOutlet UILabel *dragLabel;
+@property CGPoint dragLocation;
 
 
 @end
@@ -39,7 +40,9 @@
     self.winner = @"nowinner";
     self.labelArray = [NSArray arrayWithObjects:self.labelOne, self.labelTwo, self.labelThree, self.labelFour, self.labelFive, self.labelSix, self.labelSeven, self.labelEight, self.labelNine, nil];
     self.currentGameArray = [NSMutableArray array];
-
+    
+    self.dragLocation= self.dragLabel.center;
+    self.dragLabel.text = self.whichPlayerNextLabel.text;
     }
 
 
@@ -51,38 +54,43 @@
     }
 }
 
-- (IBAction)onLabelTapped:(UITapGestureRecognizer *)tap {
-    CGPoint point = [tap locationInView:self.view];
-    [self findLabelUsingPoint:point];
-    if ([self.whichPlayerNextLabel.text  isEqualToString:@"O"] ) {
-        self.selectedLabel.backgroundColor = [UIColor redColor];
-        self.selectedLabel.text = @"O";
-        self.whichPlayerNextLabel.text = @"X";
-        
-    }else{
-        
-        self.selectedLabel.backgroundColor = [UIColor blueColor];
-        self.selectedLabel.text = @"X";
-        self.whichPlayerNextLabel.text = @"O";
-    }
-    
-    //Did someone win?
-    [self whoWon];
-        
-    //Winner?
-    if (![self.winner isEqualToString:@"nowinner"]) {
-        NSString *winMessage = [NSString stringWithFormat:@"Player %@ won!",self.winner];
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:winMessage message:@"" preferredStyle:UIAlertControllerStyleAlert];
-        
-                    UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"Play Again?" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    
-                        [self viewDidLoad];
-                        
-                    }];
-                    [alert addAction:defaultAction];
-                    [self presentViewController:alert animated:YES completion:nil];
-    }
-}
+//- (IBAction)onLabelTapped:(UITapGestureRecognizer *)tap {
+//    CGPoint point = [tap locationInView:self.view];
+//    [self findLabelUsingPoint:point];
+//    if ([self.whichPlayerNextLabel.text  isEqualToString:@"O"] ) {
+//        self.selectedLabel.backgroundColor = [UIColor redColor];
+//        self.selectedLabel.text = @"O";
+//        self.whichPlayerNextLabel.text = @"X";
+//        
+//    }else{
+//        
+//        self.selectedLabel.backgroundColor = [UIColor blueColor];
+//        self.selectedLabel.text = @"X";
+//        self.whichPlayerNextLabel.text = @"O";
+//    }
+//    self.dragLabel.text = self.whichPlayerNextLabel.text;
+//
+//    
+//    //Did someone win?
+//    [self whoWon];
+//    
+//    //Winner?
+//    if (![self.winner isEqualToString:@"nowinner"]) {
+//        NSString *winMessage = [NSString stringWithFormat:@"Player %@ won!",self.winner];
+//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:winMessage message:@"" preferredStyle:UIAlertControllerStyleAlert];
+//        
+//                    UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"Play Again?" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                    
+//                            //reset board
+//                        for (UILabel *label in self.labelArray) {
+//                            label.backgroundColor = [UIColor whiteColor];
+//                            label.text = @"Label";
+//                        }
+//                    }];
+//                    [alert addAction:defaultAction];
+//                    [self presentViewController:alert animated:YES completion:nil];
+//    }
+//}
 
 - (NSString *)whoWon{
     self.winningCombinations = [NSArray arrayWithObjects:
@@ -111,5 +119,44 @@
     }
 
 
+- (IBAction)onPlayerLabelDragged:(UIPanGestureRecognizer *)pan{
+    CGPoint point = [pan locationInView:self.view];
+    self.dragLabel.center = point;
+    
+    if (pan.state == UIGestureRecognizerStateEnded) {
+        [self findLabelUsingPoint:point];
+        
+        if ([self.selectedLabel.text isEqualToString:@"Label"]) {
+            if ([self.whichPlayerNextLabel.text  isEqualToString:@"O"] ) {
+                self.selectedLabel.backgroundColor = [UIColor redColor];
+                self.selectedLabel.text = @"O";
+                self.whichPlayerNextLabel.text = @"X";
+                
+            }else{
+                self.selectedLabel.backgroundColor = [UIColor blueColor];
+                self.selectedLabel.text = @"X";
+                self.whichPlayerNextLabel.text = @"O";
+            }
+        }
+        
+        [self.view setNeedsDisplay];
+        self.dragLabel.text = self.whichPlayerNextLabel.text;
+
+        
+        
+    }else{
+//        [self findLabelUsingPoint:point];
+//        if ([self.whichPlayerNextLabel.text  isEqualToString:@"O"] ) {
+//            self.selectedLabel.backgroundColor = [UIColor redColor];
+//            self.selectedLabel.text = @"O";
+//            self.whichPlayerNextLabel.text = @"X";
+//            
+//        }else{
+//            self.selectedLabel.backgroundColor = [UIColor blueColor];
+//            self.selectedLabel.text = @"X";
+//            self.whichPlayerNextLabel.text = @"O";
+//        }
+    }
+}
 
 @end
